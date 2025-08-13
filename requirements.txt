@@ -1,0 +1,15 @@
+ipykernel
+pandas
+numpy
+seaborn
+matplotlib
+scikit-learn
+imbalanced-learn
+category_encoders
+xgboost
+lightgbm
+catboost
+pyyaml
+flask
+mlflow
+pydantic

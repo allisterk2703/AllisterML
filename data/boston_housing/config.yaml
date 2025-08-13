@@ -1,0 +1,125 @@
+TARGET:
+  PROBLEM_TYPE: regression # regression, classification
+  CLASSIFICATION_TYPE: null # None, binary, multiclass, multilabel
+  NAME: "MEDV"
+  ORDER: []
+
+COLUMNS:
+  RENAME: {}
+  DROP: []
+  DROP_AFTER_TRANSFORMATIONS: []
+
+CLEANING:
+  REPLACE_BY_NAN: ["?", "NA", "n/a", ""]
+  REPLACE_MAP: {}
+  TYPE_CONVERSION: {}
+  IMPUTATION:
+    age: mean
+    chas: mean
+    crim: mean
+    indus: mean
+    lstat: mean
+    zn: mean
+  OUTLIERS: {}
+
+ENCODING:
+  ORDINAL: {}
+
+IMBALANCE:
+  STRATEGY: null
+
+DIMENSIONALITY_REDUCTION:
+  STRATEGY: null # select_k_best, pca, tsvd
+  K_BEST_FEATURES:
+  PCA_COMPONENTS:
+  TSVD_COMPONENTS:
+
+TRAINING:
+  MODELS:
+    REGRESSION:
+      XGBREGRESSOR: 1
+      LGBMREGRESSOR: 1
+      RANDOMFORESTREGRESSOR: 1
+      SVR: 1
+      LINEARREGRESSION: 1
+      RIDGE: 0
+      LASSO: 0
+      DECISIONTREEREGRESSOR: 0
+    CLASSIFICATION:
+      XGBCLASSIFIER: 1
+      CATBOOSTCLASSIFIER: 1
+      LOGISTICREGRESSION: 1
+      GRADIENTBOOSTINGCLASSIFIER: 0
+      RANDOMFORESTCLASSIFIER: 0
+      LGBMCLASSIFIER: 0
+      SVC: 0
+      KNEIGHBORSCLASSIFIER: 0
+      DECISIONTREECLASSIFIER: 0
+      NAIVEBAYESCLASSIFIER: 0
+  GRIDSEARCH: True
+  PARAM_GRIDS:
+    REGRESSION:
+      XGBREGRESSOR:
+        n_estimators: [100, 200]
+        learning_rate: [0.01, 0.1]
+        max_depth: [3, 6]
+      LGBMREGRESSOR:
+        n_estimators: [100, 200]
+        learning_rate: [0.01, 0.1]
+        num_leaves: [31, 63]
+      RANDOMFORESTREGRESSOR:
+        n_estimators: [50, 100]
+        max_depth: [10, 20]
+        min_samples_split: [2, 5]
+      SVR:
+        C: [0.1, 1, 10]
+        kernel: ["linear", "rbf"]
+      LINEARREGRESSION:
+        fit_intercept: [true, false]
+      RIDGE:
+        alpha: [0.1, 1.0, 10.0]
+      LASSO:
+        alpha: [0.001, 0.01, 0.1]
+      DECISIONTREEREGRESSOR:
+        max_depth: [None, 5, 10]
+        min_samples_split: [2, 5]
+    CLASSIFICATION:
+      XGBCLASSIFIER:
+        n_estimators: [100, 200]
+        learning_rate: [0.01, 0.1]
+        max_depth: [3, 6]
+      CATBOOSTCLASSIFIER:
+        iterations: [100, 200]
+        depth: [4, 6]
+        learning_rate: [0.01, 0.1]
+      LOGISTICREGRESSION:
+        C: [0.1, 1, 10]
+        penalty: ["l2"]
+        solver: ["lbfgs"]
+      LGBMCLASSIFIER:
+        n_estimators: [100, 200]
+        learning_rate: [0.01, 0.1]
+        num_leaves: [31, 63]
+      RANDOMFORESTCLASSIFIER:
+        n_estimators: [50, 100]
+        max_depth: [10, 20]
+        min_samples_split: [2, 5]
+      SVC:
+        C: [0.1, 1, 10]
+        kernel: ["linear", "rbf"]
+      GRADIENTBOOSTINGCLASSIFIER:
+        n_estimators: [100, 200]
+        learning_rate: [0.01, 0.1]
+        max_depth: [3, 5]
+      KNEIGHBORSCLASSIFIER:
+        n_neighbors: [3, 5, 7]
+        weights: ["uniform", "distance"]
+      DECISIONTREECLASSIFIER:
+        max_depth: [None, 5, 10]
+        min_samples_split: [2, 5]
+      NAIVEBAYESCLASSIFIER:
+        var_smoothing: [1e-09, 1e-08, 1e-07]
+  CROSS_VALIDATION: True
+  N_FOLDS: 5
+  SAVE_RESULTS_TO_CSV: True
+  LOG_IN_MLFLOW: True

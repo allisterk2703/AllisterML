@@ -1,0 +1,23 @@
+[project]
+name = "AllisterML"
+version = "0.1.0"
+description = "AllisterML is a template for machine learning projects."
+authors = [{name = "Allister Kohn", email = "allister.kohn@gmail.com"}]
+dependencies = []
+
+[tool.black]
+line-length = 1200
+target-version = ["py313"]
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+line_length = 1200
+
+[tool.ruff]
+line-length = 1200
+exclude = ["setup.py", "*.ipynb"]
+
+[tool.ruff.lint]
+extend-select = ["E501"]
+ignore = ["E731"]

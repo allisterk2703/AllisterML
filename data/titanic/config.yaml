@@ -1,0 +1,113 @@
+TARGET:
+  PROBLEM_TYPE: classification # regression / classification
+  CLASSIFICATION_TYPE: binary # null / binary / multiclass
+  NAME: Survived # as it appears in the original dataset
+  ORDER: [] # ["value1", "value2", "value3", ...]
+
+COLUMNS:
+  RENAME:
+    pclass: pclass_num
+    sex: gender
+  DROP: ["name"]
+  DROP_AFTER_TRANSFORMATIONS: []
+
+CLEANING:
+  REPLACE_BY_NAN: []
+  REPLACE_MAP: {}
+  REPLACE_IN_SPECIFIC_COLUMNS: {}
+  TYPE_CONVERSION: {}
+  IMPUTATION: {
+    age: mean,
+    cabin: mode,
+    embarked: mode
+  }
+  OUTLIERS: {}
+
+ENCODING:
+  ORDINAL: {}
+
+IMBALANCE:
+  STRATEGY: smote # smote / smotenc / random_over / random_under
+
+DIMENSIONALITY_REDUCTION:
+  STRATEGY:
+  K_BEST_FEATURES:
+  PCA_COMPONENTS:
+  TSVD_COMPONENTS:
+
+TRAINING:
+  MODELS:
+    REGRESSION:
+      XGBREGRESSOR: 1
+      LGBMREGRESSOR: 1
+      RANDOMFORESTREGRESSOR: 1
+      LINEARREGRESSION: 1
+      RIDGE: 0
+      LASSO: 0
+      SVR: 1
+      DECISIONTREEREGRESSOR: 0
+    CLASSIFICATION:
+      XGBCLASSIFIER: 1
+      LOGISTICREGRESSION: 1
+      LGBMCLASSIFIER: 0
+      CATBOOSTCLASSIFIER: 1
+      RANDOMFORESTCLASSIFIER: 0
+      SVC: 0
+      GRADIENTBOOSTINGCLASSIFIER: 0
+      KNEIGHBORSCLASSIFIER: 0
+      DECISIONTREECLASSIFIER: 0
+      NAIVEBAYESCLASSIFIER: 0
+  GRIDSEARCH: True
+  PARAM_GRIDS:
+    REGRESSION:
+      XGBREGRESSOR:
+        n_estimators: [100, 200]
+        learning_rate: [0.01, 0.1]
+        max_depth: [3, 6]
+      LGBMREGRESSOR:
+        n_estimators: [100, 200]
+        learning_rate: [0.01, 0.1]
+        num_leaves: [31, 63]
+      RANDOMFORESTREGRESSOR:
+        n_estimators: [50, 100]
+        max_depth: [10, 20]
+        min_samples_split: [2, 5]
+      LINEARREGRESSION:
+        fit_intercept: [true, false]
+      RIDGE:
+        alpha: [0.1, 1.0, 10.0]
+      LASSO:
+        alpha: [0.001, 0.01, 0.1]
+      SVR:
+        C: [0.1, 1, 10]
+        kernel: ["linear", "rbf"]
+      DECISIONTREEREGRESSOR:
+        max_depth: [None, 5, 10]
+        min_samples_split: [2, 5]
+    CLASSIFICATION:
+      XGBCLASSIFIER:
+        n_estimators: [100, 200]
+        learning_rate: [0.01, 0.1]
+        max_depth: [3, 6]
+      LOGISTICREGRESSION:
+        C: [0.1, 1, 10]
+        penalty: ["l2"]
+        solver: ["lbfgs"]
+      LGBMCLASSIFIER:
+        n_estimators: [100, 200]
+        learning_rate: [0.01, 0.1]
+        num_leaves: [31, 63]
+      CATBOOSTCLASSIFIER:
+        iterations: [100, 200]
+        depth: [4, 6]
+        learning_rate: [0.01, 0.1]
+      RANDOMFORESTCLASSIFIER:
+        n_estimators: [50, 100]
+        max_depth: [10, 20]
+        min_samples_split: [2, 5]
+      SVC:
+        C: [0.1, 1, 10]
+        kernel: ["linear", "rbf"]
+      GRADIENTBOOSTINGCLASSIFIER:
+        n_estimators: [100, 200]
+       

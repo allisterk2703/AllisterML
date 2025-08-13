@@ -1,0 +1,148 @@
+TARGET:
+  PROBLEM_TYPE: classification # regression, classification
+  CLASSIFICATION_TYPE: multiclass # null, binary, multiclass, multilabel
+  NAME: "readmitted"
+  ORDER: ["<30", ">30", "NO"]
+
+COLUMNS:
+  RENAME: {}
+  DROP:
+    [
+      "payer_code",
+      "weight",
+      "max_glu_serum",
+      "a1cresult",
+      "examide",
+      "citoglipton",
+      "medical_specialty",
+      "metformin-rosiglitazone",
+    ]
+  DROP_AFTER_TRANSFORMATIONS: ["encounter_id", "patient_nbr"]
+
+CLEANING:
+  REPLACE_BY_NAN: ["?"]
+  REPLACE_MAP: {}
+  TYPE_CONVERSION: {}
+  IMPUTATION:
+    diag_1: drop
+    diag_2: drop
+    diag_3: drop
+    race: drop
+  OUTLIERS: {}
+
+ENCODING:
+  ORDINAL:
+    age:
+      [
+        "[0-10)",
+        "[10-20)",
+        "[20-30)",
+        "[30-40)",
+        "[40-50)",
+        "[50-60)",
+        "[60-70)",
+        "[70-80)",
+        "[80-90)",
+        "[90-100)"
+      ]
+    medication_category: ["0-9", "10-19", "20-29", "30-39", "40-49", "50-59"]
+
+IMBALANCE:
+  STRATEGY: smote
+
+DIMENSIONALITY_REDUCTION:
+  STRATEGY: select_k_best # select_k_best, pca, tsvd
+  # Une seule des 3 valeurs doit être non None
+  K_BEST_FEATURES: 50
+  PCA_COMPONENTS: 0.95
+  TSVD_COMPONENTS: 0.95
+
+TRAINING:
+  MODELS:
+    REGRESSION:
+      XGBREGRESSOR: 1
+      LGBMREGRESSOR: 1
+      RANDOMFORESTREGRESSOR: 1
+      LINEARREGRESSION: 1
+      RIDGE: 0
+      LASSO: 0
+      SVR: 1
+      DECISIONTREEREGRESSOR: 0
+    CLASSIFICATION:
+      XGBCLASSIFIER: 1
+      LOGISTICREGRESSION: 1
+      LGBMCLASSIFIER: 0
+      CATBOOSTCLASSIFIER: 1
+      RANDOMFORESTCLASSIFIER: 0
+      SVC: 0
+      GRADIENTBOOSTINGCLASSIFIER: 0
+      KNEIGHBORSCLASSIFIER: 0
+      DECISIONTREECLASSIFIER: 0
+      NAIVEBAYESCLASSIFIER: 0
+  GRIDSEARCH: True
+  PARAM_GRIDS:
+    REGRESSION:
+      XGBREGRESSOR:
+        n_estimators: [100, 200]
+        learning_rate: [0.01, 0.1]
+        max_depth: [3, 6]
+      LGBMREGRESSOR:
+        n_estimators: [100, 200]
+        learning_rate: [0.01, 0.1]
+        num_leaves: [31, 63]
+      RANDOMFORESTREGRESSOR:
+        n_estimators: [50, 100]
+        max_depth: [10, 20]
+        min_samples_split: [2, 5]
+      LINEARREGRESSION:
+        fit_intercept: [true, false]
+      RIDGE:
+        alpha: [0.1, 1.0, 10.0]
+      LASSO:
+        alpha: [0.001, 0.01, 0.1]
+      SVR:
+        C: [0.1, 1, 10]
+        kernel: ['linear', 'rbf']
+      DECISIONTREEREGRESSOR:
+        max_depth: [None, 5, 10]
+        min_samples_split: [2, 5]
+    CLASSIFICATION:
+      XGBCLASSIFIER:
+        n_estimators: [100, 200]
+        learning_rate: [0.01, 0.1]
+        max_depth: [3, 6]
+      LOGISTICREGRESSION:
+        C: [0.1, 1, 10]
+        penalty: ['l2']
+        solver: ['lbfgs']
+      LGBMCLASSIFIER:
+        n_estimators: [100, 200]
+        learning_rate: [0.01, 0.1]
+        num_leaves: [31, 63]
+      CATBOOSTCLASSIFIER:
+        iterations: [100, 200]
+        depth: [4, 6]
+        learning_rate: [0.01, 0.1]
+      RANDOMFORESTCLASSIFIER:
+        n_estimators: [50, 100]
+        max_depth: [10, 20]
+        min_samples_split: [2, 5]
+      SVC:
+        C: [0.1, 1, 10]
+        kernel: ['linear', 'rbf']
+      GRADIENTBOOSTINGCLASSIFIER:
+        n_estimators: [100, 200]
+        learning_rate: [0.01, 0.1]
+        max_depth: [3, 5]
+      KNEIGHBORSCLASSIFIER:
+        n_neighbors: [3, 5, 7]
+        weights: ['uniform', 'distance']
+      DECISIONTREECLASSIFIER:
+        max_depth: [None, 5, 10]
+        min_samples_split: [2, 5]
+      NAIVEBAYESCLASSIFIER:
+        var_smoothing: [1e-09, 1e-08, 1e-07]
+  CROSS_VALIDATION: True
+  N_FOLDS: 5
+  SAVE_RESULTS_TO_CSV: True # True / False
+  LOG_IN_MLFLOW: True # True / False

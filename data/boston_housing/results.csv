@@ -1,0 +1,6 @@
+model,r2,rmse,mae
+XGBRegressor,0.914,2.507,1.942
+RandomForestRegressor,0.881,2.956,2.108
+LGBMRegressor,0.867,3.127,2.13
+SVR,0.808,3.748,2.127
+LinearRegression,0.659,5.002,3.15

@@ -1,0 +1,4 @@
+model,accuracy,precision,recall,f1,roc_auc
+CatBoostClassifier,1.0,1.0,1.0,1.0,1.0
+XGBClassifier,0.972,0.974,0.976,0.974,1.0
+LogisticRegression,0.972,0.978,0.967,0.971,1.0
