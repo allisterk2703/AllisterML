@@ -10,7 +10,7 @@ It is designed to make ML experimentation reproducible, organized, and productio
 
 #### 📬 Contact
 - **Name:** Allister Kohn  
-- **Email:** allister.kohn@gmail.com
+- **Email:** contact@allisterkohn.com
 - **LinkedIn:** [linkedin.com/in/allisterkohn](https://www.linkedin.com/in/allisterkohn/)
 
 ___

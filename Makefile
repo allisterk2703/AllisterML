@@ -15,6 +15,8 @@ install-requirements-dev:  ## Installs development dependencies
 	@pip install -r requirements-dev.txt
 	@echo "✅ Development dependencies installed"
 
+install: install-requirements install-requirements-dev  ## Installs both main and development dependencies
+
 clean:  ## Removes temporary files
 	@find . -name "__pycache__" -type d -exec rm -rf {} +
 	@find . -name "*.pyc" -type f -delete
